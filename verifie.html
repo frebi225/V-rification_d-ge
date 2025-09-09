@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercices JavaScript - Conditions</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .exercise {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 25px;
+            width: 100%;
+            max-width: 350px;
+            transition: transform 0.3s ease;
+        }
+        
+        .exercise:hover {
+            transform: translateY(-5px);
+        }
+        
+        .exercise h2 {
+            color: #2575fc;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .exercise p {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #6a11cb;
+            outline: none;
+        }
+        
+        button {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: opacity 0.3s;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .age-result {
+            color: #2575fc;
+        }
+        
+        .number-result {
+            color: #6a11cb;
+        }
+        
+        .month-result {
+            color: #ff6b6b;
+        }
+        
+        footer {
+            margin-top: 40px;
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .exercise {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Exercices JavaScript</h1>
+    </header>
+    
+    <div class="container">
+        <div class="exercise">
+            <h2>1. Vérification d'âge</h2>
+            <p>Ce programme vérifie si vous êtes majeur ou mineur en fonction de votre âge.</p>
+            
+            <div class="input-group">
+                <label for="age">Entrez votre âge :</label>
+                <input type="number" id="age" min="0" max="120" placeholder="Ex: 17">
+            </div>
+            
+            <button onclick="checkAge()">Vérifier</button>
+            
+            <div class="result age-result" id="ageResult">
+                Le résultat s'affichera ici.
+            </div>
+        </div>
+        
+        <div class="exercise">
+            <h2>2. Pair ou impair</h2>
+            <p>Ce programme détermine si un nombre est pair ou impair.</p>
+            
+            <div class="input-group">
+                <label for="number">Entrez un nombre :</label>
+                <input type="number" id="number" placeholder="Ex: 42">
+            </div>
+            
+            <button onclick="checkNumber()">Vérifier</button>
+            
+            <div class="result number-result" id="numberResult">
+                Le résultat s'affichera ici.
+            </div>
+        </div>
+        
+        <div class="exercise">
+            <h2>3. Nom du mois</h2>
+            <p>Ce programme affiche le nom du mois correspondant au numéro saisi.</p>
+            
+            <div class="input-group">
+                <label for="month">Entrez le numéro du mois (1-12) :</label>
+                <input type="number" id="month" min="1" max="12" placeholder="Ex: 3">
+            </div>
+            
+            <button onclick="showMonth()">Afficher</button>
+            
+            <div class="result month-result" id="monthResult">
+                Le résultat s'affichera ici.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Exercice 1: Vérification d'âge
+        function checkAge() {
+            const ageInput = document.getElementById('age');
+            const resultElement = document.getElementById('ageResult');
+            
+            const age = parseInt(ageInput.value);
+            
+            if (isNaN(age) || age < 0) {
+                resultElement.textContent = "Veuillez entrer un âge valide.";
+                return;
+            }
+            
+            if (age < 18) {
+                resultElement.textContent = "Vous êtes mineur.";
+            } else {
+                resultElement.textContent = "Vous êtes majeur.";
+            }
+        }
+        
+        // Exercice 2: Pair ou impair
+        function checkNumber() {
+            const numberInput = document.getElementById('number');
+            const resultElement = document.getElementById('numberResult');
+            
+            const number = parseInt(numberInput.value);
+            
+            if (isNaN(number)) {
+                resultElement.textContent = "Veuillez entrer un nombre valide.";
+                return;
+            }
+            
+            if (number % 2 === 0) {
+                resultElement.textContent = `${number} est un nombre pair.`;
+            } else {
+                resultElement.textContent = `${number} est un nombre impair.`;
+            }
+        }
+        
+        // Exercice 3: Nom du mois
+        function showMonth() {
+            const monthInput = document.getElementById('month');
+            const resultElement = document.getElementById('monthResult');
+            
+            const monthNumber = parseInt(monthInput.value);
+            
+            if (isNaN(monthNumber) || monthNumber < 1 || monthNumber > 12) {
+                resultElement.textContent = "Veuillez entrer un numéro de mois valide (1-12).";
+                return;
+            }
+            
+            const months = [
+                "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+                "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+            ];
+            
+            resultElement.textContent = `Le mois numéro ${monthNumber} est ${months[monthNumber - 1]}.`;
+        }
+    </script>
+</body>
+</html>
